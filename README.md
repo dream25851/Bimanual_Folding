@@ -2,6 +2,10 @@
 
 Static bilingual project page for the dual-Piper towel-folding experiment described in [dream25851/ACT](https://github.com/dream25851/ACT). The default page is English; the top-right language control opens the complete Chinese version.
 
+## Website
+
+Visit the project page: [https://dream25851.github.io/Bimanual_Folding/](https://dream25851.github.io/Bimanual_Folding/)
+
 The page presents:
 
 - the `physical_ai_runtime` system architecture;
