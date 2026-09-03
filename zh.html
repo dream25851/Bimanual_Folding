@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基于纠正式人机协同微调的双臂毛巾折叠</title>
+  <meta name="description" content="一套基于双 Piper 机械臂的毛巾折叠系统：先用 ACT 学习角点抓取，再通过纠正式人机协同数据完成全任务微调。">
+  <meta name="keywords" content="双臂操作, 毛巾折叠, ACT, 模仿学习, 人机协同, 机器人">
+  <meta name="author" content="Bimanual Folding Project">
+  <meta name="theme-color" content="#f5f2eb">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="基于纠正式人机协同微调的双臂毛巾折叠">
+  <meta property="og:description" content="从角点抓取预训练到双 Piper 机械臂上的纠正式 HIL 微调。">
+  <meta property="og:url" content="https://dream25851.github.io/Bimanual_Folding/zh.html">
+  <meta property="og:image" content="https://dream25851.github.io/Bimanual_Folding/static/images/runtime_architecture.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="static/css/index.css">
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="主导航">
+      <a class="wordmark" href="#top">双臂毛巾折叠</a>
+      <div class="nav-links">
+        <a href="#overview">项目概述</a>
+        <a href="#system">系统</a>
+        <a href="#method">方法</a>
+        <a href="#results">结果</a>
+        <a href="#media">视频</a>
+      </div>
+      <a class="language-switch" href="index.html" lang="en" aria-label="Switch to English">EN</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="eyebrow">双臂操作 · ACT · 纠正式 HIL</div>
+      <h1>基于纠正式人机协同微调的双臂毛巾折叠</h1>
+      <p class="hero-lede">
+        一套面向精确角点抓取与完整毛巾折叠的分阶段学习流程，部署于两台 Piper 机械臂。
+        最终策略在五种随机摆放的测试毛巾上取得 35/50 的成功率。
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://github.com/dream25851/ACT" target="_blank" rel="noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.22c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.12c.98 0 1.94.13 2.85.38 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>实验记录</a>
+        <a class="button secondary" href="https://github.com/dream25851/physical_ai_runtime" target="_blank" rel="noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.22c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.12c.98 0 1.94.13 2.85.38 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>Physical AI Runtime</a>
+      </div>
+      <div class="headline-metrics" aria-label="核心结果">
+        <div class="metric"><strong>70%</strong><span>微调策略成功率</span></div>
+        <div class="metric"><strong>150</strong><span>次评估实验</span></div>
+        <div class="metric"><strong>101</strong><span>条纠正式 HIL 轨迹</span></div>
+        <div class="metric"><strong>5</strong><span>种测试毛巾</span></div>
+      </div>
+    </section>
+
+    <section class="wide-media section-shell" aria-label="项目演示视频">
+      <video class="asset-media" controls muted loop playsinline preload="metadata" data-fallback="zh-finetune-fallback">
+        <source src="static/videos/finetune10k.mp4" type="video/mp4">
+      </video>
+      <div class="asset-fallback" id="zh-finetune-fallback" hidden>
+        <span>视频占位</span>
+        <code>static/videos/finetune10k.mp4</code>
+      </div>
+      <p class="media-caption">微调策略独立完成一次完整折叠；测试前毛巾被随机放置。</p>
+    </section>
+
+    <section class="paper-section muted" id="overview">
+      <div class="section-shell narrow">
+        <p class="section-kicker">项目概述</p>
+        <h2>摘要</h2>
+        <p class="abstract">
+          仅依赖少量成功示范很难学会精细的布料操作：策略可能能够接近毛巾，却仍会错过稳定双臂抓取所需的角点。为此，我们采用分阶段训练方法。首先使用蓝色方巾的 100 条直接角点抓取示范训练 ACT 策略；随后将策略部署到真实机器人上，当夹爪偏离或即将抓空时，由操作员接管并完成后续任务。该过程在红色与绿色毛巾上获得 101 条完整任务轨迹。基于角点抓取检查点继续微调，在五种毛巾、共 50 次随机摆放测试中取得 70% 的完整任务成功率；作为对照，预训练策略为 26%，使用相同 HIL 数据从头训练的策略为 20%。结果表明，在本系统中，保留已有角点抓取能力并利用纠正式 HIL 数据继续微调，是比从头训练更有效的路径；位置鲁棒性与跨实例泛化仍有提升空间。
+        </p>
+      </div>
+    </section>
+
+    <section class="paper-section" id="system">
+      <div class="section-shell">
+        <p class="section-kicker">系统</p>
+        <h2>从感知、推理到人工接管的统一运行时</h2>
+        <p class="section-intro">
+          <code>physical_ai_runtime</code> 连接相机、策略、RMI 控权层、双臂控制与轨迹记录模块。同一套运行时既负责自主评估，也负责 HIL 数据采集时向主臂遥操作切换控制权。
+        </p>
+
+        <figure class="media-panel architecture-figure">
+          <div class="asset-frame architecture-frame">
+            <img class="asset-media" src="static/images/runtime_architecture.png" alt="physical_ai_runtime、纠正式遥操作与训练闭环架构图" loading="lazy" data-fallback="zh-architecture-fallback">
+            <div class="asset-fallback" id="zh-architecture-fallback" hidden><span>架构图占位</span><code>static/images/runtime_architecture.png</code></div>
+          </div>
+          <figcaption>完整闭环：三路相机感知、ACT 推理、RMI 控权切换、双 Piper 执行、纠正轨迹记录与数据集转换。</figcaption>
+        </figure>
+
+        <div class="system-grid">
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="zh-cameras-fallback">
+                <source src="static/videos/three_camera_inputs.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="zh-cameras-fallback" hidden><span>视频占位</span><code>static/videos/three_camera_inputs.mp4</code></div>
+            </div>
+            <figcaption>策略同步接收的视觉观测：Orbbec 顶视 RGB，以及左、右腕部 RGB 图像。</figcaption>
+          </figure>
+          <figure class="media-panel">
+            <div class="asset-frame image-frame">
+              <img class="asset-media" src="static/images/slim_gripper.jpg" alt="Piper 机械臂上的细长定制夹爪手指" loading="lazy" data-fallback="zh-gripper-fallback">
+              <div class="asset-fallback" id="zh-gripper-fallback" hidden><span>图片占位</span><code>static/images/slim_gripper.jpg</code></div>
+            </div>
+            <figcaption>将 Piper 原装夹爪手指替换为更细长的结构，以减小接近毛巾角点时的几何干涉。</figcaption>
+          </figure>
+        </div>
+
+        <div class="architecture" aria-label="系统架构摘要">
+          <div class="arch-node">
+            <span class="arch-label">观测</span>
+            <strong>顶视 RGB + 两路腕部 RGB</strong>
+            <small>14 维机器人状态</small>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node emphasized">
+            <span class="arch-label">运行时</span>
+            <strong>physical_ai_runtime</strong>
+            <small>ACT · RMI · 轨迹记录</small>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <span class="arch-label">执行</span>
+            <strong>双 Piper 从臂</strong>
+            <small>14 维关节指令</small>
+          </div>
+          <div class="arch-branch">
+            <span>双 Piper 主臂</span><span>遥操作接管</span><span>HIL 轨迹记录</span>
+          </div>
+        </div>
+
+        <p class="evidence-note">
+          定制手指属于最终硬件配置，但本阶段没有进行夹爪消融实验，因此不单独声称其带来了多少性能增益。
+        </p>
+      </div>
+    </section>
+
+    <section class="paper-section muted" id="method">
+      <div class="section-shell">
+        <p class="section-kicker">方法</p>
+        <h2>由策略失败状态决定的训练课程</h2>
+        <div class="method-steps">
+          <article class="method-card">
+            <span class="step-number">01</span>
+            <h3>学习前置技能</h3>
+            <p>使用 100 条蓝色方巾直接角点抓取示范，将 <code>base20k</code> 训练 20k steps。</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">02</span>
+            <h3>进入失败状态</h3>
+            <p>在真实机器人上运行策略。偏移与临界抓空状态由策略实际运行产生，而非预先编排。</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">03</span>
+            <h3>纠正并完成任务</h3>
+            <p>操作员通过两台主臂接管，恢复抓取并继续完成抬升与折叠，共采集 101 条 HIL 轨迹。</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">04</span>
+            <h3>微调完整任务</h3>
+            <p>从 <code>base20k</code> 继续进行 10k steps 的 HIL 微调，并与使用相同 HIL 数据训练 20k steps 的从头训练模型对比。</p>
+          </article>
+        </div>
+
+        <div class="method-media-grid">
+          <figure class="media-panel method-media-card">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="zh-teleop-fallback">
+                <source src="static/videos/pretraining_teleop.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="zh-teleop-fallback" hidden><span>视频占位</span><code>static/videos/pretraining_teleop.mp4</code></div>
+            </div>
+            <figcaption><strong>人工示范。</strong>100 条预训练轨迹全部通过双主臂遥操作采集。</figcaption>
+          </figure>
+          <figure class="media-panel method-media-card">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="zh-hil-fallback">
+                <source src="static/videos/policy_hil_takeover.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="zh-hil-fallback" hidden><span>视频占位</span><code>static/videos/policy_hil_takeover.mp4</code></div>
+            </div>
+            <figcaption><strong>纠正式 HIL 轨迹。</strong>策略先进入困难状态，操作员随后接管控制权，恢复抓取并完成任务。</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-section" id="results">
+      <div class="section-shell">
+        <p class="section-kicker">实验结果</p>
+        <h2>微调显著提高完整任务成功率</h2>
+        <p class="section-intro">每个模型测试 50 次：五种毛巾各 10 次，每次运行前均随机放置毛巾，不采用固定布局。</p>
+
+        <div class="score-chart" role="img" aria-label="完整任务成功率：预训练模型 26%，HIL 从头训练模型 20%，微调模型 70%">
+          <div class="score-row">
+            <div class="score-name"><strong>预训练</strong><small>角点抓取，20k</small></div>
+            <div class="score-track"><span style="width:26%"></span></div>
+            <div class="score-value">26%</div>
+          </div>
+          <div class="score-row">
+            <div class="score-name"><strong>从头训练</strong><small>HIL-101，20k</small></div>
+            <div class="score-track"><span style="width:20%"></span></div>
+            <div class="score-value">20%</div>
+          </div>
+          <div class="score-row highlight">
+            <div class="score-name"><strong>微调</strong><small>预训练 + HIL-101，10k</small></div>
+            <div class="score-track"><span style="width:70%"></span></div>
+            <div class="score-value">70%</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>毛巾</th><th>训练阶段是否见过</th><th>预训练 20k</th><th>从头训练 20k</th><th>微调 10k</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="swatch blue"></span>蓝色方巾</td><td>预训练</td><td>5 / 10</td><td>0 / 10</td><td class="best">8 / 10</td></tr>
+              <tr><td><span class="swatch green"></span>绿色方巾</td><td>HIL</td><td>3 / 10</td><td>2 / 10</td><td class="best">9 / 10</td></tr>
+              <tr><td><span class="swatch red"></span>红色方巾</td><td>HIL</td><td>2 / 10</td><td>3 / 10</td><td class="best">8 / 10</td></tr>
+              <tr><td><span class="swatch yellow"></span>黄色方巾</td><td>未见</td><td>1 / 10</td><td>2 / 10</td><td class="best">6 / 10</td></tr>
+              <tr><td><span class="swatch white"></span>白色长方巾</td><td>颜色、实例与形状均未见</td><td>2 / 10</td><td>3 / 10</td><td class="best">4 / 10</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="result-notes">
+          <article><strong>+44 pp</strong><span>相对预训练策略</span></article>
+          <article><strong>+50 pp</strong><span>相对 HIL 从头训练</span></article>
+          <article><strong>17 / 20</strong><span>红、绿两种 HIL 毛巾</span></article>
+          <article><strong>10 / 20</strong><span>两种未见毛巾合计</span></article>
+        </div>
+
+        <figure class="media-panel towel-panel">
+          <div class="asset-frame image-frame">
+            <img class="asset-media" src="static/images/towel_set.jpg" alt="用于评估的五种毛巾" loading="lazy" data-fallback="zh-towels-fallback">
+            <div class="asset-fallback" id="zh-towels-fallback" hidden><span>图片占位</span><code>static/images/towel_set.jpg</code></div>
+          </div>
+          <figcaption>评估对象：蓝色（预训练）、红色与绿色（HIL）、黄色（未见方巾）、白色（未见长方巾）。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="paper-section muted" id="media">
+      <div class="section-shell">
+        <p class="section-kicker">定性展示</p>
+        <h2>代表性运行结果</h2>
+        <p class="section-intro">以下完整运行用于对比角点抓取检查点与微调后的全任务策略。从头训练模型的成功率较低，因此只保留在定量结果中，不再额外设置展示视频。</p>
+        <div class="video-grid">
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="zh-base-fallback">
+                <source src="static/videos/base20k.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="zh-base-fallback" hidden><span>视频占位</span><code>static/videos/base20k.mp4</code></div>
+            </div>
+            <figcaption><strong>预训练 20k。</strong>仅学习直接角点抓取，展示其在困难随机位置下的代表性失败。</figcaption>
+          </figure>
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="zh-fine-fallback">
+                <source src="static/videos/finetune10k.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="zh-fine-fallback" hidden><span>视频占位</span><code>static/videos/finetune10k.mp4</code></div>
+            </div>
+            <figcaption><strong>微调 10k。</strong>保留角点抓取能力，并完成后续完整折叠任务。</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-section" id="limitations">
+      <div class="section-shell narrow">
+        <p class="section-kicker">实验边界</p>
+        <h2>本阶段实验尚不能说明什么</h2>
+        <ul class="limitations-list">
+          <li>所有模型只使用一个训练种子，并在同一套机器人与相机配置上评估。</li>
+          <li>测试时毛巾随机摆放，但没有记录具体位置与朝向，因此无法事后按放置难度分层统计。</li>
+          <li>目前只保留了各条件的二值成功结果，无法进一步分析阶段性失败、任务耗时或折叠误差。</li>
+          <li>白色毛巾同时改变了颜色、实例与几何形状，其 4/10 结果不能解释为单独的形状消融。</li>
+          <li>定制夹爪、纠正状态采样与完整任务标签没有分别进行消融。</li>
+        </ul>
+        <p class="closing-statement">在上述边界内，实验结论是明确的：先保留角点抓取这一前置技能，再使用纠正式完整任务轨迹进行微调，明显优于本阶段设置的两种对照方法。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-shell footer-inner">
+      <span>双臂毛巾折叠 · 项目记录，2026</span>
+      <span><a href="https://github.com/dream25851/ACT">实验仓库</a> · <a href="https://github.com/dream25851/physical_ai_runtime">运行时仓库</a></span>
+    </div>
+  </footer>
+</body>
+</html>

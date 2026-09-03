@@ -1,520 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- Primary Meta Tags -->
-  <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="PAPER_TITLE - AUTHOR_NAMES">
-  <!-- TODO: Write a compelling 150-160 character description of your research -->
-  <meta name="description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Add 5-10 relevant keywords for your research area -->
-  <meta name="keywords" content="KEYWORD1, KEYWORD2, KEYWORD3, machine learning, computer vision, AI">
-  <!-- TODO: List all authors -->
-  <meta name="author" content="FIRST_AUTHOR_NAME, SECOND_AUTHOR_NAME">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="article">
-  <!-- TODO: Replace with your institution or lab name -->
-  <meta property="og:site_name" content="INSTITUTION_OR_LAB_NAME">
-  <!-- TODO: Same as paper title above -->
-  <meta property="og:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta property="og:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Replace with your actual website URL -->
-  <meta property="og:url" content="https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE">
-  <!-- TODO: Create a 1200x630px preview image and update path -->
-  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
-  <meta property="article:published_time" content="2024-01-01T00:00:00.000Z">
-  <meta property="article:author" content="FIRST_AUTHOR_NAME">
-  <meta property="article:section" content="Research">
-  <meta property="article:tag" content="KEYWORD1">
-  <meta property="article:tag" content="KEYWORD2">
-
-  <!-- Twitter -->
+  <title>Bimanual Towel Folding with Corrective HIL Fine-Tuning</title>
+  <meta name="description" content="A dual-Piper towel-folding system that combines ACT corner-grasp pretraining with corrective human-in-the-loop fine-tuning.">
+  <meta name="keywords" content="bimanual manipulation, towel folding, ACT, imitation learning, human-in-the-loop, robotics">
+  <meta name="author" content="Bimanual Folding Project">
+  <meta name="theme-color" content="#f5f2eb">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bimanual Towel Folding with Corrective HIL Fine-Tuning">
+  <meta property="og:description" content="From corner-grasp pretraining to corrective HIL fine-tuning on a dual-Piper robot system.">
+  <meta property="og:url" content="https://dream25851.github.io/Bimanual_Folding/">
+  <meta property="og:image" content="https://dream25851.github.io/Bimanual_Folding/static/images/runtime_architecture.png">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- TODO: Replace with your lab/institution Twitter handle -->
-  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
-  <!-- TODO: Replace with first author's Twitter handle -->
-  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
-  <!-- TODO: Same as paper title above -->
-  <meta name="twitter:title" content="PAPER_TITLE">
-  <!-- TODO: Same as description above -->
-  <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
-  <!-- TODO: Same as social preview image above -->
-  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview">
-
-  <!-- Academic/Research Specific -->
-  <meta name="citation_title" content="PAPER_TITLE">
-  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
-  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
-  <meta name="citation_publication_date" content="2024">
-  <meta name="citation_conference_title" content="CONFERENCE_NAME">
-  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
-  
-  <!-- Additional SEO -->
-  <meta name="theme-color" content="#2563eb">
-  <meta name="msapplication-TileColor" content="#2563eb">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://ajax.googleapis.com">
-  <link rel="preconnect" href="https://documentcloud.adobe.com">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-
-
-  <!-- TODO: Replace with your paper title and authors -->
-  <title>PAPER_TITLE - AUTHOR_NAMES | Academic Research</title>
-  
-  <!-- Favicon and App Icons -->
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
-  <link rel="apple-touch-icon" href="static/images/favicon.ico">
-  
-  <!-- Critical CSS - Load synchronously -->
-  <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  
-  <!-- Non-critical CSS - Load asynchronously -->
-  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  <!-- Fallback for browsers that don't support preload -->
-  <noscript>
-    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  </noscript>
-  
-  <!-- Fonts - Optimized loading -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Defer non-critical JavaScript -->
-  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-  <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script defer src="static/js/bulma-carousel.min.js"></script>
-  <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="static/js/index.js"></script>
-  
-  <!-- Structured Data for Academic Papers -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "headline": "PAPER_TITLE",
-    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "FIRST_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "SECOND_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      }
-    ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CONFERENCE_OR_JOURNAL_NAME"
-    },
-    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
-    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
-    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
-    "abstract": "FULL_ABSTRACT_TEXT_HERE",
-    "citation": "BIBTEX_CITATION_HERE",
-    "isAccessibleForFree": true,
-    "license": "https://creativecommons.org/licenses/by/4.0/",
-    "mainEntity": {
-      "@type": "WebPage",
-      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
-    },
-    "about": [
-      {
-        "@type": "Thing",
-        "name": "RESEARCH_AREA_1"
-      },
-      {
-        "@type": "Thing", 
-        "name": "RESEARCH_AREA_2"
-      }
-    ]
-  }
-  </script>
-  
-  <!-- Website/Organization Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "INSTITUTION_OR_LAB_NAME",
-    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
-    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/YOUR_TWITTER_HANDLE",
-      "https://github.com/YOUR_GITHUB_USERNAME"
-    ]
-  }
-  </script>
 </head>
 <body>
-
-
-  <!-- Scroll to Top Button -->
-  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
-    <i class="fas fa-chevron-up"></i>
-  </button>
-
-  <!-- More Works Dropdown -->
-  <div class="more-works-container">
-    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
-      <i class="fas fa-flask"></i>
-      More Works
-      <i class="fas fa-chevron-down dropdown-arrow"></i>
-    </button>
-    <div class="more-works-dropdown" id="moreWorksDropdown">
-      <div class="dropdown-header">
-        <h4>More Works from Our Lab</h4>
-        <button class="close-btn" onclick="toggleMoreWorks()">
-          <i class="fas fa-times"></i>
-        </button>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Main navigation">
+      <a class="wordmark" href="#top">Bimanual Folding</a>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#media">Media</a>
       </div>
-      <div class="works-list">
-        <!-- TODO: Replace with your lab's related works -->
-        <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
-          <div class="work-info">
-            <!-- TODO: Replace with actual paper title -->
-            <h5>Paper Title 1</h5>
-            <!-- TODO: Replace with brief description -->
-            <p>Brief description of the work and its main contribution.</p>
-            <!-- TODO: Replace with venue and year -->
-            <span class="work-venue">Conference/Journal 2024</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <!-- TODO: Add more related works or remove extra items -->
-        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 2</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
-        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
-          <div class="work-info">
-            <h5>Paper Title 3</h5>
-            <p>Brief description of the work and its main contribution.</p>
-            <span class="work-venue">Conference/Journal 2023</span>
-          </div>
-          <i class="fas fa-external-link-alt"></i>
-        </a>
+      <a class="language-switch" href="zh.html" lang="zh-CN" aria-label="切换到中文版">中文</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="eyebrow">Dual-arm manipulation · ACT · Corrective HIL</div>
+      <h1>Bimanual Towel Folding with Corrective Human-in-the-Loop Fine-Tuning</h1>
+      <p class="hero-lede">
+        A staged learning pipeline for precise corner grasping and complete towel folding on two Piper arms.
+        The final policy succeeds in 35 of 50 trials across five towels placed at random positions.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://github.com/dream25851/ACT" target="_blank" rel="noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.22c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.12c.98 0 1.94.13 2.85.38 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>Experiment record</a>
+        <a class="button secondary" href="https://github.com/dream25851/physical_ai_runtime" target="_blank" rel="noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.22c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.75.4-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.12c.98 0 1.94.13 2.85.38 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.27c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>Physical AI Runtime</a>
       </div>
-    </div>
-  </div>
-
-  <main id="main-content">
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <!-- TODO: Replace with your paper title -->
-            <h1 class="title is-1 publication-title">Academic Project Page</h1>
-            <div class="is-size-5 publication-authors">
-              <!-- TODO: Replace with your paper authors and their personal links -->
-              <span class="author-block">
-                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">First Author</a><sup>*</sup>,</span>
-                <span class="author-block">
-                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Second Author</a><sup>*</sup>,</span>
-                  <span class="author-block">
-                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Third Author</a>
-                  </span>
-                  </div>
-
-                  <div class="is-size-5 publication-authors">
-                    <!-- TODO: Replace with your institution and conference/journal info -->
-                    <span class="author-block">Institution Name<br>Conference name and year</span>
-                    <!-- TODO: Remove this line if no equal contribution -->
-                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
-                  </div>
-
-                  <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- TODO: Update with your arXiv paper ID -->
-                      <span class="link-block">
-                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
-
-                    <!-- TODO: Add your supplementary material PDF or remove this section -->
-                    <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
-                      class="external-link button is-normal is-rounded is-dark">
-                      <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
-                      </span>
-                      <span>Supplementary</span>
-                    </a>
-                  </span>
-
-                  <!-- TODO: Replace with your GitHub repository URL -->
-                  <span class="link-block">
-                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span>
-
-                <!-- TODO: Update with your arXiv paper ID -->
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                    <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-            </div>
-          </div>
-        </div>
+      <div class="headline-metrics" aria-label="Headline results">
+        <div class="metric"><strong>70%</strong><span>fine-tuned policy</span></div>
+        <div class="metric"><strong>150</strong><span>evaluation trials</span></div>
+        <div class="metric"><strong>101</strong><span>corrective HIL episodes</span></div>
+        <div class="metric"><strong>5</strong><span>test towels</span></div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-
-<!-- Teaser video-->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <!-- TODO: Replace with your teaser video -->
-      <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
-        <!-- TODO: Add your video file path here -->
-        <source src="static/videos/banner_video.mp4" type="video/mp4">
+    <section class="wide-media section-shell" aria-label="Project teaser video">
+      <video class="asset-media" controls muted loop playsinline preload="metadata" data-fallback="finetune-fallback">
+        <source src="static/videos/finetune10k.mp4" type="video/mp4">
       </video>
-      <!-- TODO: Replace with your video description -->
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
-    </div>
-  </div>
-</section>
-<!-- End teaser video -->
+      <div class="asset-fallback" id="finetune-fallback" hidden>
+        <span>Video slot</span>
+        <code>static/videos/finetune10k.mp4</code>
+      </div>
+      <p class="media-caption">A complete autonomous fold by the fine-tuned policy. The towel is placed at a random test position.</p>
+    </section>
 
-<!-- Paper abstract -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <!-- TODO: Replace with your paper abstract -->
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ullamcorper tellus sed ante aliquam tempus. Etiam porttitor urna feugiat nibh elementum, et tempor dolor mattis. Donec accumsan enim augue, a vulputate nisi sodales sit amet. Proin bibendum ex eget mauris cursus euismod nec et nibh. Maecenas ac gravida ante, nec cursus dui. Vivamus purus nibh, placerat ac purus eget, sagittis vestibulum metus. Sed vestibulum bibendum lectus gravida commodo. Pellentesque auctor leo vitae sagittis suscipit.
-          </p>
+    <section class="paper-section muted" id="overview">
+      <div class="section-shell narrow">
+        <p class="section-kicker">Overview</p>
+        <h2>Abstract</h2>
+        <p class="abstract">
+          Precise cloth manipulation is difficult to learn from a small set of successful demonstrations: a policy may approach the cloth while still missing the corners required for a stable bimanual grasp. We study a staged alternative. An ACT policy is first trained on 100 direct corner-grasp demonstrations using a blue square towel. The policy is then deployed, and a human operator takes over at states where the grippers are misaligned or likely to miss. These interventions produce 101 full-task trajectories on red and green towels. Fine-tuning from the corner-grasp checkpoint reaches 70% full-task success over 50 random-placement trials, compared with 26% for the pretrained policy and 20% for a policy trained from scratch on the HIL data. The results support corrective HIL fine-tuning as a practical route for this system, while leaving position-controlled robustness and cross-instance generalization open.
+        </p>
+      </div>
+    </section>
+
+    <section class="paper-section" id="system">
+      <div class="section-shell">
+        <p class="section-kicker">System</p>
+        <h2>One runtime from sensing to intervention</h2>
+        <p class="section-intro">
+          <code>physical_ai_runtime</code> connects the cameras, policy, RMI authority layer, dual-arm control and episode recorder. The same runtime is used for autonomous evaluation and for switching to leader-arm control during HIL collection.
+        </p>
+
+        <figure class="media-panel architecture-figure">
+          <div class="asset-frame architecture-frame">
+            <img class="asset-media" src="static/images/runtime_architecture.png" alt="Architecture of physical_ai_runtime, corrective teleoperation and the training loop" loading="lazy" data-fallback="architecture-fallback">
+            <div class="asset-fallback" id="architecture-fallback" hidden><span>Architecture figure slot</span><code>static/images/runtime_architecture.png</code></div>
+          </div>
+          <figcaption>The complete loop: three-camera sensing, ACT inference, RMI authority switching, dual-Piper execution, corrective recording and dataset conversion.</figcaption>
+        </figure>
+
+        <div class="system-grid">
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="cameras-fallback">
+                <source src="static/videos/three_camera_inputs.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="cameras-fallback" hidden><span>Video slot</span><code>static/videos/three_camera_inputs.mp4</code></div>
+            </div>
+            <figcaption>The synchronized policy observation: Orbbec top RGB together with the left- and right-wrist RGB streams.</figcaption>
+          </figure>
+          <figure class="media-panel">
+            <div class="asset-frame image-frame">
+              <img class="asset-media" src="static/images/slim_gripper.jpg" alt="Custom elongated slim gripper fingers on the Piper robot" loading="lazy" data-fallback="gripper-fallback">
+              <div class="asset-fallback" id="gripper-fallback" hidden><span>Image slot</span><code>static/images/slim_gripper.jpg</code></div>
+            </div>
+            <figcaption>The stock Piper fingers were replaced with longer, narrower fingers to reach towel corners with less geometric interference.</figcaption>
+          </figure>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End paper abstract -->
 
-
-<!-- Image carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-<!-- End image carousel -->
-
-
-
-
-<!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <!-- TODO: Replace with your YouTube video ID -->
-            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="architecture" aria-label="System architecture">
+          <div class="arch-node">
+            <span class="arch-label">Observation</span>
+            <strong>Top RGB + two wrist RGB</strong>
+            <small>14-D robot state</small>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node emphasized">
+            <span class="arch-label">Runtime</span>
+            <strong>physical_ai_runtime</strong>
+            <small>ACT · RMI · recorder</small>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <span class="arch-label">Execution</span>
+            <strong>Dual Piper followers</strong>
+            <small>14-D joint references</small>
+          </div>
+          <div class="arch-branch">
+            <span>Dual leaders</span><span>Teleop takeover</span><span>Recorded HIL episode</span>
           </div>
         </div>
+
+        <p class="evidence-note">
+          The custom fingers are part of the final hardware configuration. Their contribution was not isolated in a gripper ablation, so no separate performance gain is claimed.
+        </p>
       </div>
-    </div>
-  </div>
-</section>
-<!-- End youtube video -->
+    </section>
 
-
-<!-- Video carousel -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4" type="video/mp4">
-          </video>
+    <section class="paper-section muted" id="method">
+      <div class="section-shell">
+        <p class="section-kicker">Method</p>
+        <h2>A curriculum defined by policy failures</h2>
+        <div class="method-steps">
+          <article class="method-card">
+            <span class="step-number">01</span>
+            <h3>Learn the prerequisite</h3>
+            <p>Train <code>base20k</code> for 20k steps on 100 blue-square demonstrations of direct corner grasping.</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">02</span>
+            <h3>Visit failure states</h3>
+            <p>Run the policy on the robot. Misalignment and near-miss states are reached by the policy rather than scripted in advance.</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">03</span>
+            <h3>Correct and finish</h3>
+            <p>The operator takes control with two leader arms, recovers the grasp and completes lifting and folding. This yields 101 HIL episodes.</p>
+          </article>
+          <article class="method-card">
+            <span class="step-number">04</span>
+            <h3>Fine-tune the full task</h3>
+            <p>Continue from <code>base20k</code> for 10k HIL steps. Compare against a 20k-step scratch model trained on the same HIL data.</p>
+          </article>
         </div>
-        <div class="item item-video2">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- End video carousel -->
 
-
-
-
-
-
-<!-- Paper poster -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <!-- TODO: Replace with your poster PDF -->
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
-          </iframe>
-        
-      </div>
-    </div>
-  </section>
-<!--End paper poster -->
-
-
-
-<!--BibTex citation -->
-  <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <div class="bibtex-header">
-        <h2 class="title">BibTeX</h2>
-        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
-          <i class="fas fa-copy"></i>
-          <span class="copy-text">Copy</span>
-        </button>
-      </div>
-      <pre id="bibtex-code"><code>@article{YourPaperKey2024,
-  title={Your Paper Title Here},
-  author={First Author and Second Author and Third Author},
-  journal={Conference/Journal Name},
-  year={2024},
-  url={https://your-domain.com/your-project-page}
-}</code></pre>
-    </div>
-</section>
-<!--End BibTex citation -->
-
-
-  <footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-
+        <div class="method-media-grid">
+          <figure class="media-panel method-media-card">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="teleop-fallback">
+                <source src="static/videos/pretraining_teleop.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="teleop-fallback" hidden><span>Video slot</span><code>static/videos/pretraining_teleop.mp4</code></div>
+            </div>
+            <figcaption><strong>Human demonstrations.</strong> The 100 pretraining trajectories were collected entirely through bilateral leader-arm teleoperation.</figcaption>
+          </figure>
+          <figure class="media-panel method-media-card">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="hil-fallback">
+                <source src="static/videos/policy_hil_takeover.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="hil-fallback" hidden><span>Video slot</span><code>static/videos/policy_hil_takeover.mp4</code></div>
+            </div>
+            <figcaption><strong>Corrective HIL episode.</strong> The policy reaches a difficult state; the operator takes authority, recovers the grasp and completes the task.</figcaption>
+          </figure>
         </div>
       </div>
+    </section>
+
+    <section class="paper-section" id="results">
+      <div class="section-shell">
+        <p class="section-kicker">Results</p>
+        <h2>Fine-tuning closes most of the gap</h2>
+        <p class="section-intro">Each model is evaluated in 50 trials: ten trials on each of five towels, with the towel position randomized before every run.</p>
+
+        <div class="score-chart" role="img" aria-label="Full-task success rates: base 26 percent, scratch HIL 20 percent, fine-tuned 70 percent">
+          <div class="score-row">
+            <div class="score-name"><strong>Base</strong><small>corner grasp, 20k</small></div>
+            <div class="score-track"><span style="width:26%"></span></div>
+            <div class="score-value">26%</div>
+          </div>
+          <div class="score-row">
+            <div class="score-name"><strong>Scratch</strong><small>HIL-101, 20k</small></div>
+            <div class="score-track"><span style="width:20%"></span></div>
+            <div class="score-value">20%</div>
+          </div>
+          <div class="score-row highlight">
+            <div class="score-name"><strong>Fine-tuned</strong><small>base + HIL-101, 10k</small></div>
+            <div class="score-track"><span style="width:70%"></span></div>
+            <div class="score-value">70%</div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Towel</th><th>Training exposure</th><th>Base 20k</th><th>Scratch 20k</th><th>Fine-tuned 10k</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="swatch blue"></span>Blue square</td><td>Pretraining</td><td>5 / 10</td><td>0 / 10</td><td class="best">8 / 10</td></tr>
+              <tr><td><span class="swatch green"></span>Green square</td><td>HIL</td><td>3 / 10</td><td>2 / 10</td><td class="best">9 / 10</td></tr>
+              <tr><td><span class="swatch red"></span>Red square</td><td>HIL</td><td>2 / 10</td><td>3 / 10</td><td class="best">8 / 10</td></tr>
+              <tr><td><span class="swatch yellow"></span>Yellow square</td><td>Unseen</td><td>1 / 10</td><td>2 / 10</td><td class="best">6 / 10</td></tr>
+              <tr><td><span class="swatch white"></span>White rectangle</td><td>Unseen color, instance and shape</td><td>2 / 10</td><td>3 / 10</td><td class="best">4 / 10</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="result-notes">
+          <article><strong>+44 pp</strong><span>over the pretrained base policy</span></article>
+          <article><strong>+50 pp</strong><span>over scratch training on HIL-101</span></article>
+          <article><strong>17 / 20</strong><span>on red and green HIL towels</span></article>
+          <article><strong>10 / 20</strong><span>across the two unseen towels</span></article>
+        </div>
+
+        <figure class="media-panel towel-panel">
+          <div class="asset-frame image-frame">
+            <img class="asset-media" src="static/images/towel_set.jpg" alt="The five towels used for evaluation" loading="lazy" data-fallback="towels-fallback">
+            <div class="asset-fallback" id="towels-fallback" hidden><span>Image slot</span><code>static/images/towel_set.jpg</code></div>
+          </div>
+          <figcaption>Evaluation towels: blue (pretraining), red and green (HIL), yellow (unseen square), and white (unseen rectangle).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="paper-section muted" id="media">
+      <div class="section-shell">
+        <p class="section-kicker">Qualitative examples</p>
+        <h2>Representative rollouts</h2>
+        <p class="section-intro">These complete trials contrast the corner-grasp checkpoint with the fine-tuned full-task policy. The low-performing scratch model remains in the quantitative comparison, but is omitted here to keep the qualitative evidence focused.</p>
+        <div class="video-grid">
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="base-fallback">
+                <source src="static/videos/base20k.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="base-fallback" hidden><span>Video slot</span><code>static/videos/base20k.mp4</code></div>
+            </div>
+            <figcaption><strong>Base 20k.</strong> Direct corner-grasp pretraining; representative failure at a difficult random position.</figcaption>
+          </figure>
+          <figure class="media-panel">
+            <div class="asset-frame video-frame">
+              <video class="asset-media" controls muted playsinline preload="metadata" data-fallback="fine-fallback">
+                <source src="static/videos/finetune10k.mp4" type="video/mp4">
+              </video>
+              <div class="asset-fallback" id="fine-fallback" hidden><span>Video slot</span><code>static/videos/finetune10k.mp4</code></div>
+            </div>
+            <figcaption><strong>Fine-tuned 10k.</strong> Inherits the corner-grasp skill and completes the full folding task.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="paper-section" id="limitations">
+      <div class="section-shell narrow">
+        <p class="section-kicker">Scope</p>
+        <h2>What the experiment does not establish</h2>
+        <ul class="limitations-list">
+          <li>All models use one training seed and one robot/camera configuration.</li>
+          <li>Random placement was not logged as position or orientation, so placement difficulty cannot be balanced or stratified after the fact.</li>
+          <li>Only binary condition-level outcomes were retained; stage failures, task time and fold error are unavailable.</li>
+          <li>The white towel changes color, instance and geometry together. Its 4/10 result is not a shape-only ablation.</li>
+          <li>The custom fingers, corrective-state sampling and full-task labels were not isolated in separate ablations.</li>
+        </ul>
+        <p class="closing-statement">Within these limits, the result is clear: preserving the prerequisite corner-grasp skill and fine-tuning on corrective full-task trajectories is substantially more effective than either control used in this study.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="section-shell footer-inner">
+      <span>Bimanual Towel Folding · Project record, 2026</span>
+      <span><a href="https://github.com/dream25851/ACT">Experiment</a> · <a href="https://github.com/dream25851/physical_ai_runtime">Runtime</a></span>
     </div>
-  </div>
-</footer>
-
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
-
-    <!-- End of Statcounter Code -->
-
-  </body>
-  </html>
+  </footer>
+</body>
+</html>
