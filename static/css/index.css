@@ -802,3 +802,27 @@ footer {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Project attribution beneath the title. */
+.project-credits {
+  max-width: 860px;
+  margin: 0 auto 28px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.project-credits p {
+  margin: 5px 0;
+}
+
+.project-credits .project-authors,
+.project-credits .project-advisor {
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.project-credits .project-advisor {
+  margin-top: 12px;
+  color: var(--ink);
+}

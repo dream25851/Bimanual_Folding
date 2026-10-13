@@ -6,7 +6,7 @@
   <title>基于纠正式微调的双臂毛巾折叠</title>
   <meta name="description" content="一套基于双 Piper 机械臂的毛巾折叠系统：先用 ACT 学习角点抓取，再通过纠正式HIL数据完成全任务微调。">
   <meta name="keywords" content="双臂操作, 毛巾折叠, ACT, 模仿学习, 人机协同, 机器人">
-  <meta name="author" content="Bimanual Folding Project">
+  <meta name="author" content="孟想, 刘明哲">
   <meta name="theme-color" content="#f5f2eb">
   <meta property="og:type" content="website">
   <meta property="og:title" content="基于纠正式微调的双臂毛巾折叠">
@@ -36,6 +36,13 @@
     <section class="hero section-shell">
       <div class="eyebrow">双臂操作 · ACT · 纠正式 HIL</div>
       <h1>基于纠正式微调的双臂毛巾折叠</h1>
+      <div class="project-credits" aria-label="作者与单位">
+        <p class="project-authors">孟想<sup>1</sup> · 刘明哲<sup>1</sup></p>
+        <p><sup>1</sup> 华东理工大学</p>
+        <p class="project-advisor">指导教师：郭宁<sup>2</sup></p>
+        <p><sup>2</sup> 上海交通大学人工智能学院</p>
+        <p>暑期研究项目 · <a href="https://hirol.sjtu.edu.cn/">上海交通大学类人智能实验室（HIROL）</a></p>
+      </div>
       <p class="hero-lede">
         一套面向精确角点抓取与完整毛巾折叠的分阶段学习流程，部署于两台 Piper 机械臂。
         最终策略在五种随机摆放的测试毛巾上取得 35/50 的成功率。
@@ -283,6 +290,22 @@
           <li>定制夹爪、纠正状态采样与完整任务标签没有分别进行消融。</li>
         </ul>
         <p class="closing-statement">在上述边界内，实验结论是明确的：先保留角点抓取这一前置技能，再使用纠正式完整任务轨迹进行微调，明显优于本阶段设置的两种对照方法。</p>
+      </div>
+    </section>
+    <section class="paper-section muted" id="acknowledgements">
+      <div class="section-shell narrow">
+        <p class="section-kicker">致谢</p>
+        <h2>实验室与团队</h2>
+        <p>感谢上海交通大学人工智能学院<a href="https://hirol.sjtu.edu.cn/">类人智能实验室（HIROL）</a>及连文昭教授带领的团队对本暑期研究项目的支持。</p>
+      </div>
+    </section>
+
+    <section class="paper-section" id="citation">
+      <div class="section-shell narrow">
+        <p class="section-kicker">引用</p>
+        <h2>引用本项目展示页</h2>
+        <p>孟想，刘明哲．<em>基于纠正式微调的双臂毛巾折叠</em>［项目网站］．暑期研究项目，指导教师：郭宁．<a href="https://dream25851.github.io/Bimanual_Folding/zh.html">项目展示页</a>。</p>
+        <p><a href="CITATION.md">引用说明与 BibTeX</a></p>
       </div>
     </section>
   </main>
