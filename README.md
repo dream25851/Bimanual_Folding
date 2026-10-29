@@ -53,3 +53,29 @@ The page remains usable before project media is embedded and shows labeled fallb
 
 - [Experiment record](https://github.com/dream25851/ACT)
 - [Physical AI Runtime](https://github.com/dream25851/physical_ai_runtime)
+
+## FAQ / 常见问题
+
+Bring-up problems on a bimanual rig concentrate in three places: communication latency, camera calibration, and emergency-stop handling. [FAQ.md](./FAQ.md) lists the typical symptoms, the usual causes, and the order in which to check them, including data collection and page-preview issues.
+
+双臂系统的调试问题集中在三处：通信延迟、相机标定、急停处理。[FAQ.md](./FAQ.md) 按「现象 → 原因 → 排查与处理」整理了这些问题，另含数据采集与页面预览部分。
+
+Topics covered / 覆盖内容:
+
+- communication and latency: leader–follower lag, jittery rollouts, frame misalignment, dropped commands / 通信与延迟：主从跟随滞后、动作卡顿、观测错位、指令丢失
+- cameras and calibration: wrist camera extrinsic checks, consistent exposure, USB bandwidth, cable strain / 相机与标定：腕部相机外参验收、曝光统一、USB 带宽、线缆牵扯
+- emergency stop and takeover: recovery order, authority switching, joint limits and singularities / 急停与接管：恢复顺序、权限切换、关节限位与奇异位形
+- data and training: dropped frames, lost corner-grasp skill after fine-tuning, action layout / 数据与训练：丢帧、微调后角点技能退化、action 维度约定
+- page and repository: local preview, asset placeholders, GitHub Pages cache / 页面与仓库：本地预览、素材占位符、Pages 缓存
+
+Numbers in the FAQ are starting points to verify on your own hardware, not specifications. / FAQ 中的数值是经验起点，请在自己的硬件上复核，不要当作规格。
+
+## License / 许可证
+
+This project is released under the [Apache License 2.0](./LICENSE), the same license used across the M-Robots community on AtomGit. You may use, modify and redistribute the page source, the text and the bundled media with attribution, subject to the terms of that license.
+
+本项目采用 [Apache License 2.0](./LICENSE)，与 AtomGit 上 M-Robots 社区组织的主线一致。在保留版权与许可声明的前提下，可自由使用、修改和再分发本页面源码、文本及随仓库提供的展示素材，具体条款以许可证原文为准。
+
+If you reuse the experiment footage or figures in a talk or a paper, please cite the project page (see [CITATION.md](./CITATION.md)) in addition to keeping the license notice. / 若在报告或论文中复用本项目的实验影像与图表，除保留许可声明外，请一并引用本展示页（见 [CITATION.md](./CITATION.md)）。
+
+Copyright 2026 Xiang Meng and Mingzhe Liu. / 版权所有 2026 孟想、刘明哲。
