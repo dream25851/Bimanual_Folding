@@ -27,6 +27,7 @@
         <a href="#method">Method</a>
         <a href="#results">Results</a>
         <a href="#media">Media</a>
+        <a href="#faq">FAQ</a>
       </div>
       <a class="language-switch" href="zh.html" lang="zh-CN" aria-label="切换到中文版">中文</a>
     </nav>
@@ -292,6 +293,168 @@
         <p class="closing-statement">Within these limits, the result is clear: preserving the prerequisite corner-grasp skill and fine-tuning on corrective full-task trajectories is substantially more effective than either control used in this study.</p>
       </div>
     </section>
+
+    <section class="paper-section" id="faq">
+      <div class="section-shell narrow">
+        <p class="section-kicker">FAQ</p>
+        <h2>Troubleshooting the dual-Piper setup</h2>
+        <p class="section-intro">Most bring-up failures on a two-arm system fall into four groups: communication and latency, cameras and calibration, takeover and abnormal handling, and data collection. Each entry below follows symptom, likely cause and check order. Concrete values depend on the arm model, driver version and implementation, so treat them as starting points rather than specifications.</p>
+
+        <div class="faq-groups">
+          <div class="faq-group">
+            <h3>Communication and latency</h3>
+
+            <details class="faq-item">
+              <summary>The follower arm lags behind the leader during teleoperation</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> The follower responds late, trails when the leader accelerates, and keeps moving briefly after the operator stops.</p>
+                <p><strong>Likely cause.</strong> Delay or period jitter between leader-state reading, leader-to-follower mapping, command publication and driver execution. Queue backlog, inconsistent control periods or driver-side buffering also produce lag.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Log the publish rate, timestamps and period jitter of both the leader-state and follower-command topics; compare them with the configured values.</li>
+                  <li>Measure the end-to-end delay from leader reading to follower execution to identify the dominant stage.</li>
+                  <li>Inspect ROS 2 QoS settings, application queues and driver buffers.</li>
+                  <li>Check CAN bus state and adjust CAN parameters where appropriate.</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Motion stutters while the policy is running</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> Execution is jerky or pauses periodically; the arm stops briefly and then resumes.</p>
+                <p><strong>Likely cause.</strong> Fluctuating inference time, an exhausted action queue, stale observations, recording and visualization competing for resources, or an unstable driver period.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Record inference time, the interval between consecutive actions, observation timestamps and queue state. For action-chunk policies, check whether the chunk keeps covering the execution period.</li>
+                  <li>Compare measured inference time against the policy's action update requirement before tuning the model or the scheduler.</li>
+                  <li>Move episode recording, preview and high-frequency logging out of the critical control loop.</li>
+                  <li>Check observation lag, especially the interval between image, joint state and action execution.</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Commands are occasionally lost during long runs or wireless debugging</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> A visible jump or brief stall appears after the system has been running for a while, with no explicit error in the log; motion stutters intermittently over a wireless link.</p>
+                <p><strong>Likely cause.</strong> Cabling or power problems, CAN errors, packet loss, node overload, or missing timeout handling after communication loss.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Check CAN, USB and network connections, cable fixation and power supply against the device requirements.</li>
+                  <li>Inspect CAN driver state, error counters, timeout logs and node restart records instead of inferring the cause from motion alone.</li>
+                  <li>During wireless debugging, measure network latency, jitter and loss; use a wired link for baseline tests where possible.</li>
+                  <li>Verify that a communication timeout triggers a validated stop or motion limit rather than continued execution of stale commands.</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>Cameras and calibration</h3>
+
+            <details class="faq-item">
+              <summary>How to tell whether wrist-camera hand-eye calibration is accurate enough</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> The policy reaches roughly the right location but misses or grasps off-centre, and the two arms behave differently.</p>
+                <p><strong>Likely cause.</strong> Extrinsic error between the camera and the end effector, or a change in bracket, mounting pose or cable routing during motion.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li><strong>Checkerboard validation.</strong> Place the board inside the wrist camera's field of view, move the end effector above the corresponding target using the calibration result, and check the actual alignment of the tool centre point.</li>
+                  <li><strong>Mounting stability.</strong> Check bracket rigidity and whether the cable pulls on the camera across the full motion range. Re-calibrate if the mounting pose has changed; otherwise re-verify the extrinsic with the board.</li>
+                  <li><strong>Both arms separately.</strong> Calibrate and verify the left and right cameras independently; do not assume symmetric structure or identical mounting error.</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>A camera drops out or the frame rate falls short</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> One view goes black during a run, or the frame rate drops noticeably once three cameras start together.</p>
+                <p><strong>Likely cause.</strong> Insufficient USB bandwidth or power.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Inspect the USB topology, for example with <code>lsusb -t</code> on Linux.</li>
+                  <li>Disable streams the task does not need, such as depth and infrared; if the policy uses RGB only, confirm no extra stream is enabled by default.</li>
+                  <li>Check the frame rate, resolution, USB error log and driver state of each camera, starting the cameras one at a time for comparison.</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>Takeover and abnormal handling</h3>
+
+            <details class="faq-item">
+              <summary>Taking over quickly when the policy misbehaves</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> The policy moves in the wrong direction, approaches the table or another obstacle, or continues its sequence after a failed grasp.</p>
+                <p><strong>Likely cause.</strong> The current state lies outside the training distribution, the observation is abnormal, or the policy is weak in that phase of the task.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Press the emergency stop immediately for an imminent collision or pinch hazard; routine correction should go through the validated authority switch into teleoperation.</li>
+                  <li>Before each run, confirm the e-stop and takeover entries work, and that the switching condition between autonomous and teleoperated control is explicit.</li>
+                  <li>Human corrections are useful training data, but mark the boundary between autonomous execution and human takeover, and check timestamps, observations and actions. Segments with severe gaps, misalignment or safety anomalies should not be used as valid samples.</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Joint jitter, unusual noise, or running close to limits</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> Joints jitter or make noise, show a position error, or the arm frequently works near its joint limits.</p>
+                <p><strong>Likely cause.</strong> Mechanical interference, loose mounting, driver alarms, abnormal feedback, unsuitable control parameters, a zero offset, or an unreasonable working range.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Stop the autonomous task and read the logs for overload or collision records.</li>
+                  <li>Inspect the structure, mounting and motion range for interference, looseness or cable snagging.</li>
+                  <li>After a collision or abnormal external force, check the zero point and positioning accuracy following the maintenance procedure; do not modify zero parameters without confirmation.</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>Data collection and training</h3>
+
+            <details class="faq-item">
+              <summary>A recorded episode drops frames or has the wrong duration</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> Playback jumps, actions are interrupted, the duration does not match the expectation, or part of the data is missing.</p>
+                <p><strong>Likely cause.</strong> The recorder competes with the control process, disk writes block, topics are sampled at different rates, or messages are dropped during collection and conversion.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Write to a local SSD rather than a network drive with unstable write performance.</li>
+                  <li>Restrict the recorded topics; exclude debug topics, point clouds and extra image streams.</li>
+                  <li>Compare duration, intervals, missing ratio and observation–action correspondence against the expected sampling rates.</li>
+                  <li>If frames are assembled at a unified timestamp, check that all required observations and actions are present; different topic rates alone do not prove frame loss.</li>
+                  <li>Replay abnormal episodes to locate the stage. Discard or flag unrecoverable gaps instead of masking them with reconstructed timestamps.</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>The corner-grasp skill degrades after fine-tuning</summary>
+              <div class="faq-body">
+                <p><strong>Symptom.</strong> Full-task success improves, but the policy fails more often than before fine-tuning in situations that require grasping a towel corner first.</p>
+                <p><strong>Likely cause.</strong> Too few corner-grasp samples, a shift in the training distribution, or an unsuitable learning rate and step count.</p>
+                <p><strong>Checks.</strong></p>
+                <ol>
+                  <li>Measure corner-grasp success separately from full-task success.</li>
+                  <li>Compare failures before and after fine-tuning to locate the stage: detecting the corner, approaching, closing the gripper, or lifting the cloth.</li>
+                  <li>Add targeted samples that must complete a corner grasp, covering different towel colours, positions and shapes.</li>
+                  <li>Check the phase distribution, duplicate samples and data quality in the fine-tuning set.</li>
+                  <li>Keep the pre-fine-tuning checkpoint and compare learning rate, step count and data mix. A full-task gain with a corner-grasp loss should be reported as an explicit trade-off rather than summarised by a single success rate.</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <p class="faq-more">The complete list, including the checks omitted here, is in <a href="FAQ.md">FAQ.md</a>.</p>
+      </div>
+    </section>
+
     <section class="paper-section muted" id="acknowledgements">
       <div class="section-shell narrow">
         <p class="section-kicker">Acknowledgements</p>

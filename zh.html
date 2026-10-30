@@ -27,6 +27,7 @@
         <a href="#method">方法</a>
         <a href="#results">结果</a>
         <a href="#media">视频</a>
+        <a href="#faq">常见问题</a>
       </div>
       <a class="language-switch" href="index.html" lang="en" aria-label="Switch to English">EN</a>
     </nav>
@@ -292,6 +293,168 @@
         <p class="closing-statement">在上述边界内，实验结论是明确的：先保留角点抓取这一前置技能，再使用纠正式完整任务轨迹进行微调，明显优于本阶段设置的两种对照方法。</p>
       </div>
     </section>
+
+    <section class="paper-section" id="faq">
+      <div class="section-shell narrow">
+        <p class="section-kicker">常见问题</p>
+        <h2>双臂系统的调试问题</h2>
+        <p class="section-intro">双臂系统的故障很少只来自一个环节。下面按通信与延迟、相机与标定、接管与异常处理、数据采集与训练四组整理，每条按「现象 → 可能原因 → 排查与处理」展开。具体参数应以实际设备型号、驱动版本与项目代码为准，不要直接当作固定规格。</p>
+
+        <div class="faq-groups">
+          <div class="faq-group">
+            <h3>通信与延迟</h3>
+
+            <details class="faq-item">
+              <summary>遥操作时从臂跟不上主臂</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>推动主臂时，从臂响应明显滞后；加速时出现拖尾，停止操作后仍有短暂运动。</p>
+                <p><strong>可能原因：</strong>主臂状态读取、主从映射、从臂指令发布与驱动执行之间存在延迟或周期抖动。中间队列积压、控制周期不一致或驱动侧缓冲也会导致指令滞后。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>分别记录主臂状态话题与从臂指令话题的实际发布频率、时间戳与周期抖动，并与配置值对比。</li>
+                  <li>测量从主臂状态读取到从臂实际执行的端到端延迟，确认延迟主要产生在哪一环节。</li>
+                  <li>检查 ROS 2 QoS 配置、应用内部队列与驱动缓冲。</li>
+                  <li>检查 CAN 总线状态，必要时调整 CAN 参数。</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>策略运行时动作一顿一顿</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>自主执行时动作出现卡顿、周期性停顿，或机械臂短暂停止后继续运动。</p>
+                <p><strong>可能原因：</strong>推理耗时波动、动作队列耗尽、观测更新不及时、录制与可视化占用资源，或驱动执行周期不稳定。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>记录每次推理耗时、相邻动作的生成间隔、观测时间戳与动作队列状态。对输出 action chunk 的策略，还应检查动作序列能否持续覆盖执行周期。</li>
+                  <li>将实测推理耗时与策略的动作更新要求对比，再决定是否排查模型负载、CPU/GPU 占用与控制循环调度。</li>
+                  <li>尽量将 episode 录制、画面预览与高频日志从关键控制循环中分离。</li>
+                  <li>检查观测是否滞后，重点关注图像、关节状态与动作执行时刻之间的时间差。</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>长时间运行或无线调试时偶发指令丢失</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>运行一段时间后出现明显跳变或短暂停顿，日志中没有明确报错；无线网络远程调试时，动作偶尔卡顿。</p>
+                <p><strong>可能原因：</strong>线缆或供电问题、CAN 通信错误、网络丢包、节点负载过高，或通信超时后系统未及时进入预定的安全状态。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>检查 CAN、USB 与网络连接，确认线缆固定可靠、供电符合设备要求。</li>
+                  <li>查看 CAN 驱动状态、错误计数、通信超时日志与节点重启记录，避免只凭动作异常推断故障来源。</li>
+                  <li>无线调试时额外检查网络延迟、抖动与丢包；条件允许时优先用有线连接做基准测试。</li>
+                  <li>检查通信超时后的处理逻辑，确认失联时系统会按已验证的安全策略停止或限制运动，而不是继续执行过期指令。</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>相机与标定</h3>
+
+            <details class="faq-item">
+              <summary>腕部相机的手眼标定是否足够准确</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>策略能够到达大致位置，但经常抓偏或抓空；左右夹爪的抓取结果也不一致。</p>
+                <p><strong>可能原因：</strong>相机与机械臂末端之间的外参存在误差，或相机支架、安装位置与线缆在运动过程中发生变化。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li><strong>标定板验证。</strong>完成手眼标定后，将标定板固定在腕部相机视野内，根据标定结果控制末端运动到对应目标点上方，检查末端工具中心点（TCP）与目标位置的实际对齐情况。</li>
+                  <li><strong>检查安装稳定性。</strong>检查支架是否牢固，以及线缆在整个运动范围内是否对相机产生拉力。若相机实际安装位姿发生变化，应重新标定；否则可用标定板复验外参精度。</li>
+                  <li><strong>左右分别验证。</strong>左右腕部相机应分别标定和验证，不要默认两侧结构、安装误差或坐标变换完全对称。</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>相机掉线或帧率不足</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>运行过程中一路画面突然变黑，或三路相机同时启动后帧率明显下降。</p>
+                <p><strong>可能原因：</strong>USB 带宽或供电不足。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>检查 USB 设备连接关系，Linux 系统可用 <code>lsusb -t</code> 查看拓扑。</li>
+                  <li>关闭任务不需要的图像流，例如深度流与红外流；若策略只使用 RGB，应确认没有无意中启用额外的数据流。</li>
+                  <li>检查各路相机的实际帧率、分辨率、USB 错误日志与驱动状态，必要时逐路启动相机做对比测试。</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>接管与异常处理</h3>
+
+            <details class="faq-item">
+              <summary>策略做出异常动作时如何最快接管</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>策略向错误方向移动、接近桌面或其他障碍物，或抓取失败后仍继续执行后续动作。</p>
+                <p><strong>可能原因：</strong>当前状态超出训练数据分布，观测数据存在异常，或策略在该动作阶段表现较弱。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>若存在即将碰撞、夹伤或其他紧迫危险，应立即急停；普通策略纠正则通过已验证的控制权切换机制进入遥操作模式。</li>
+                  <li>每轮任务开始前，确认急停与接管入口可用，并确认自主控制与遥操作之间的权限切换条件明确。</li>
+                  <li>人工纠正轨迹可以作为有价值的训练数据，但应明确标记自主执行与人工接管的分界，并检查时间戳、观测与动作是否有效。存在严重缺失、错位或安全异常的片段不能直接作为有效样本。</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>关节抖动、异响或接近限位</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>关节运行时出现抖动、异响、位置偏差，或机械臂频繁接近关节限位。</p>
+                <p><strong>可能原因：</strong>可能涉及机械干涉、安装松动、驱动报警、反馈异常、控制参数不合适、零点偏差，或关节长期在不合理的工作范围内运行。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>先停止自动任务，检查日志，确认是否存在过载或碰撞记录。</li>
+                  <li>检查机械结构、安装连接与运动范围，排除机械干涉、松动、线缆卡阻等问题。</li>
+                  <li>若机械臂曾发生碰撞或受到异常外力，应按设备维护流程检查零点与定位精度，不要未经确认就直接修改零点参数。</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+
+          <div class="faq-group">
+            <h3>数据采集与训练</h3>
+
+            <details class="faq-item">
+              <summary>录完的 episode 回放发现丢帧或时长不对</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>episode 回放出现画面跳变、动作中断、实际时长与预期不符，或部分数据缺失。</p>
+                <p><strong>可能原因：</strong>录制进程与控制进程竞争资源、磁盘写入阻塞、话题采样频率不同，或消息在采集与转换过程中被丢弃。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>优先将录制数据写入本地 SSD，避免在写入速度或稳定性不足的网络盘上直接采集。</li>
+                  <li>检查录制的话题范围，排除任务不需要的调试话题、点云与额外图像流。</li>
+                  <li>根据各话题预期的采样频率与实际时间戳，检查数据时长、时间间隔、缺失比例及观测与动作的对应关系。</li>
+                  <li>若数据集采用统一采样时刻组帧，应检查各帧所需观测与动作是否完整；各话题频率不同时，不能仅凭消息数量不同判定丢帧。</li>
+                  <li>对异常 episode 抽样回放，确认异常来自采集、同步还是后续转换。存在无法恢复的关键数据缺失或时序错位时，应剔除或单独标记，不要通过伪造时间戳掩盖问题。</li>
+                </ol>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>微调之后角点抓取能力退化</summary>
+              <div class="faq-body">
+                <p><strong>现象：</strong>完整折叠任务的成功率有所提升，但在需要先抓起毛巾角点的情境下，策略反而比微调前更容易失败。</p>
+                <p><strong>可能原因：</strong>角点抓取样本占比不足、训练数据分布变化，或微调的学习率与训练步数不合适。</p>
+                <p><strong>排查与处理：</strong></p>
+                <ol>
+                  <li>先独立统计角点抓取阶段的成功率，与完整折叠任务的成功率分开记录。</li>
+                  <li>对比微调前后的失败案例，确认退化发生在识别角点、靠近目标、夹爪闭合还是抬起毛巾等具体阶段。</li>
+                  <li>在微调数据中有针对性地补充必须完成角点抓取的样本，覆盖不同毛巾颜色、位置与形态。</li>
+                  <li>检查训练集中的任务阶段分布、重复样本与数据质量，评估不同阶段数据的平衡情况。</li>
+                  <li>保存微调前的检查点，系统对比学习率、训练步数与数据配比的影响。若完整任务指标提高而角点抓取指标下降，应作为明确的性能权衡来评估，而不是只依据单一总成功率决定模型优劣。</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <p class="faq-more">完整清单（含此处省略的检查项）见 <a href="FAQ.md">FAQ.md</a>。</p>
+      </div>
+    </section>
+
     <section class="paper-section muted" id="acknowledgements">
       <div class="section-shell narrow">
         <p class="section-kicker">致谢</p>
