@@ -20,7 +20,7 @@ This page collects common issues encountered while bringing up the dual-Piper fo
 
 1. 分别记录主臂状态话题和从臂指令话题的实际发布频率、时间戳及周期抖动，并与配置值对比。
 2. 检查从主臂状态读取到从臂实际执行之间的端到端延迟，确认延迟主要产生在哪个环节。
-3. 检查 ROS 2 QoS 配置、应用内部队列和驱动缓冲
+3. 检查 ROS 2 QoS 配置、应用内部队列和驱动缓冲。
 4. 检查 CAN 总线状态，适当修改 CAN 参数。
 
 ### 1.2 策略运行时动作一顿一顿
@@ -85,7 +85,7 @@ This page collects common issues encountered while bringing up the dual-Piper fo
 
 ---
 
-## 3. 接管与异常处理 / takeover and abnormal handing
+## 3. 接管与异常处理 / takeover and abnormal handling
 
 
 ### 3.1 策略做出异常动作时，最快接管
