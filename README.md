@@ -63,9 +63,9 @@ Bring-up problems on a bimanual rig concentrate in three places: communication l
 Topics covered / 覆盖内容:
 
 - communication and latency: leader–follower lag, jittery rollouts, frame misalignment, dropped commands / 通信与延迟：主从跟随滞后、动作卡顿、观测错位、指令丢失
-- cameras and calibration: wrist camera extrinsic checks, consistent exposure, USB bandwidth, cable strain / 相机与标定：腕部相机外参验收、曝光统一、USB 带宽、线缆牵扯
+- cameras and calibration: wrist camera extrinsic checks, USB bandwidth, cable strain / 相机与标定：腕部相机外参验收、USB 带宽、线缆牵扯
 - emergency stop and takeover: recovery order, authority switching, joint limits and singularities / 急停与接管：恢复顺序、权限切换、关节限位与奇异位形
-- data and training: dropped frames, lost corner-grasp skill after fine-tuning, action layout / 数据与训练：丢帧、微调后角点技能退化、action 维度约定
+- data and training: dropped frames, lost corner-grasp skill after fine-tuning / 数据与训练：丢帧、微调后角点技能退化
 - page and repository: local preview, asset placeholders, GitHub Pages cache / 页面与仓库：本地预览、素材占位符、Pages 缓存
 
 Numbers in the FAQ are starting points to verify on your own hardware, not specifications. / FAQ 中的数值是经验起点，请在自己的硬件上复核，不要当作规格。
