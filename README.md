@@ -66,9 +66,7 @@ Topics covered / 覆盖内容:
 - cameras and calibration: wrist camera extrinsic checks, USB bandwidth, cable strain / 相机与标定：腕部相机外参验收、USB 带宽、线缆牵扯
 - emergency stop and takeover: recovery order, authority switching, joint limits and singularities / 急停与接管：恢复顺序、权限切换、关节限位与奇异位形
 - data and training: dropped frames, lost corner-grasp skill after fine-tuning / 数据与训练：丢帧、微调后角点技能退化
-- page and repository: local preview, asset placeholders, GitHub Pages cache / 页面与仓库：本地预览、素材占位符、Pages 缓存
 
-Numbers in the FAQ are starting points to verify on your own hardware, not specifications. / FAQ 中的数值是经验起点，请在自己的硬件上复核，不要当作规格。
 
 ## License / 许可证
 
